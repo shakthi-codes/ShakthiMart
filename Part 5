@@ -1,0 +1,12 @@
+public static void main(String[] args) {
+
+    while (true) {
+        System.out.println("\n===== SKILLMART =====");
+        System.out.println("1. Add Skill/Service");
+        System.out.println("2. View Services");
+        System.out.println("3. Request Service");
+        System.out.println("4. Exit");
+
+        System.out.print("Enter choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
