@@ -6,3 +6,4 @@ class SkillMart {
 
     static ArrayList<String> skills = new ArrayList<>();
     static ArrayList<Integer> prices = new ArrayList<>();
+
