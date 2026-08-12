@@ -1,0 +1,14 @@
+static void viewSkills() {
+    if (skills.isEmpty()) {
+        System.out.println("No services available.");
+        return;
+    }
+
+    System.out.println("\nAvailable Services:");
+
+    for (int i = 0; i < skills.size(); i++) {
+        System.out.println((i + 1) + ". "
+                + skills.get(i)
+                + " - Rs." + prices.get(i));
+    }
+}
