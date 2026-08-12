@@ -1,2 +1,8 @@
-# ShakthiMart
-ShakthiMart is a student skill and service marketplace that connects skill providers with students seeking affordable and useful services
+
+import java.util.*;
+
+class SkillMart {
+    static Scanner sc = new Scanner(System.in);
+
+    static ArrayList<String> skills = new ArrayList<>();
+    static ArrayList<Integer> prices = new ArrayList<>();
