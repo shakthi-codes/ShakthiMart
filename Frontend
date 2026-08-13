@@ -1,0 +1,305 @@
+// SkillMart JavaScript Frontend
+
+let services = [
+{
+name: "Web Development",
+description: "Website development service",
+price: 500
+},
+{
+name: "Graphic Design",
+description: "Logo and poster designing",
+price: 300
+},
+{
+name: "Tutoring",
+description: "Academic tutoring service",
+price: 200
+},
+{
+name: "Video Editing",
+description: "Professional video editing",
+price: 400
+}
+];
+
+let loggedIn = false;
+
+// Show selected page
+function showPage(pageId) {
+
+let pages = document.querySelectorAll(".page");
+
+pages.forEach(function(page) {
+page.classList.remove("active");
+});
+
+let selectedPage = document.getElementById(pageId);
+
+if (selectedPage) {
+selectedPage.classList.add("active");
+}
+
+if (pageId === "servicesPage") {
+displayServices();
+}
+
+}
+
+// Login
+function login() {
+
+let username =
+document.getElementById("username").value.trim();
+
+let password =
+document.getElementById("password").value.trim();
+
+let message =
+document.getElementById("loginMessage");
+
+if (username === "" || password === "") {
+
+message.innerHTML =    
+    "Please enter username and password.";    
+
+message.style.color = "red";    
+
+return;
+
+}
+
+// Demo login
+if (username === "admin" && password === "1234") {
+
+loggedIn = true;    
+
+message.innerHTML =    
+    "Login successful!";    
+
+message.style.color = "green";    
+
+
+document.getElementById("loginButton")    
+    .style.display = "none";    
+
+document.getElementById("logoutButton")    
+    .style.display = "inline-block";    
+
+
+setTimeout(function() {    
+    showPage("homePage");    
+}, 700);
+
+} else {
+
+message.innerHTML =    
+    "Invalid username or password.";    
+
+message.style.color = "red";
+
+}
+
+}
+
+// Logout
+function logout() {
+
+loggedIn = false;
+
+document.getElementById("loginButton")
+.style.display = "inline-block";
+
+document.getElementById("logoutButton")
+.style.display = "none";
+
+document.getElementById("username").value = "";
+
+document.getElementById("password").value = "";
+
+document.getElementById("loginMessage")
+.innerHTML = "";
+
+showPage("homePage");
+
+}
+
+// Display services
+function displayServices() {
+
+let serviceList =
+document.getElementById("serviceList");
+
+serviceList.innerHTML = "";
+
+if (services.length === 0) {
+
+serviceList.innerHTML =    
+    "<p>No services available.</p>";    
+
+return;
+
+}
+
+services.forEach(function(service, index) {
+
+let card =    
+    document.createElement("div");    
+
+card.className = "service-card";    
+
+
+card.innerHTML =    
+    "<h3>" +    
+    service.name +    
+    "</h3>" +    
+
+    "<p>" +    
+    service.description +    
+    "</p>" +    
+
+    "<div class='price'>" +    
+    "₹" + service.price +    
+    "</div>" +    
+
+    "<button class='request-button' " +    
+    "onclick='requestService(" +    
+    index +    
+    ")'>" +    
+
+    "Request Service" +    
+
+    "</button>";    
+
+
+serviceList.appendChild(card);
+
+});
+
+}
+
+// Add new skill
+function addSkill() {
+
+let name =
+document.getElementById("skillName")
+.value.trim();
+
+let description =
+document.getElementById("skillDescription")
+.value.trim();
+
+let price =
+document.getElementById("skillPrice")
+.value.trim();
+
+let message =
+document.getElementById("addMessage");
+
+if (name === "" ||
+description === "" ||
+price === "") {
+
+message.innerHTML =    
+    "Please fill all fields.";    
+
+message.style.color = "red";    
+
+return;
+
+}
+
+if (Number(price) <= 0) {
+
+message.innerHTML =    
+    "Please enter a valid price.";    
+
+message.style.color = "red";    
+
+return;
+
+}
+
+services.push({
+name: name,
+description: description,
+price: Number(price)
+});
+
+message.innerHTML =
+"Skill added successfully!";
+
+message.style.color = "green";
+
+document.getElementById("skillName")
+.value = "";
+
+document.getElementById("skillDescription")
+.value = "";
+
+document.getElementById("skillPrice")
+.value = "";
+
+displayServices();
+
+}
+
+// Request service
+function requestService(index) {
+
+if (!loggedIn) {
+
+alert(    
+    "Please login before requesting a service."    
+);    
+
+showPage("loginPage");    
+
+return;
+
+}
+
+let service = services[index];
+
+alert(
+"Service requested successfully!\n\n" +
+"Service: " + service.name +
+"\nPrice: ₹" + service.price
+);
+
+}
+
+// Search services
+function searchServices() {
+
+let searchText =
+document.getElementById("searchBox")
+.value.toLowerCase();
+
+let cards =
+document.querySelectorAll(".service-card");
+
+cards.forEach(function(card) {
+
+let serviceText =    
+    card.textContent.toLowerCase();    
+
+
+if (serviceText.includes(searchText)) {    
+
+    card.style.display = "block";    
+
+} else {    
+
+    card.style.display = "none";    
+}
+
+});
+
+}
+
+// Start SkillMart
+displayServices();
+showPage("homePage")
+
+Make this code into pdf
