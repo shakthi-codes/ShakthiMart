@@ -1,1 +1,235 @@
+import java.util.*;
 
+public class SkillMartBackend {
+
+    static Scanner sc = new Scanner(System.in);
+
+    static class User {
+        String name;
+        String email;
+        String password;
+
+        User(String name, String email, String password) {
+            this.name = name;
+            this.email = email;
+            this.password = password;
+        }
+    }
+
+    static class Service {
+        int id;
+        String name;
+        String description;
+        int price;
+
+        Service(int id, String name, String description, int price) {
+            this.id = id;
+            this.name = name;
+            this.description = description;
+            this.price = price;
+        }
+    }
+
+    static class Booking {
+        String userEmail;
+        int serviceId;
+        String serviceName;
+        int price;
+
+        Booking(String userEmail, int serviceId, String serviceName, int price) {
+            this.userEmail = userEmail;
+            this.serviceId = serviceId;
+            this.serviceName = serviceName;
+            this.price = price;
+        }
+    }
+
+    static ArrayList<User> users = new ArrayList<>();
+    static ArrayList<Service> services = new ArrayList<>();
+    static ArrayList<Booking> bookings = new ArrayList<>();
+
+    static void addDefaultServices() {
+        services.add(new Service(1, "Web Development",
+                "Website development service", 500));
+
+        services.add(new Service(2, "Graphic Design",
+                "Logo and poster designing", 300));
+
+        services.add(new Service(3, "Tutoring",
+                "Academic tutoring service", 200));
+
+        services.add(new Service(4, "Video Editing",
+                "Professional video editing", 400));
+    }
+
+    static void registerUser() {
+        System.out.print("Enter name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter email: ");
+        String email = sc.nextLine();
+
+        System.out.print("Enter password: ");
+        String password = sc.nextLine();
+
+        users.add(new User(name, email, password));
+
+        System.out.println("Registration successful!");
+    }
+
+    static User loginUser() {
+        System.out.print("Enter email: ");
+        String email = sc.nextLine();
+
+        System.out.print("Enter password: ");
+        String password = sc.nextLine();
+
+        for (User user : users) {
+            if (user.email.equals(email) &&
+                user.password.equals(password)) {
+
+                System.out.println("Login successful!");
+                return user;
+            }
+        }
+
+        System.out.println("Invalid email or password.");
+        return null;
+    }
+
+    static void viewServices() {
+        System.out.println("\n----- Available Services -----");
+
+        for (Service service : services) {
+            System.out.println("ID: " + service.id);
+            System.out.println("Service: " + service.name);
+            System.out.println("Description: " + service.description);
+            System.out.println("Price: Rs." + service.price);
+            System.out.println("-----------------------------");
+        }
+    }
+
+    static void bookService(User user) {
+        viewServices();
+
+        System.out.print("Enter service ID to book: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        for (Service service : services) {
+            if (service.id == id) {
+
+                bookings.add(new Booking(
+                        user.email,
+                        service.id,
+                        service.name,
+                        service.price
+                ));
+
+                System.out.println("Service booked successfully!");
+                System.out.println("Service: " + service.name);
+                System.out.println("Price: Rs." + service.price);
+                return;
+            }
+        }
+
+        System.out.println("Service not found.");
+    }
+
+    static void viewBookings(User user) {
+        System.out.println("\n----- My Bookings -----");
+
+        boolean found = false;
+
+        for (Booking booking : bookings) {
+            if (booking.userEmail.equals(user.email)) {
+                System.out.println("Service ID: " + booking.serviceId);
+                System.out.println("Service: " + booking.serviceName);
+                System.out.println("Price: Rs." + booking.price);
+                System.out.println("-----------------------");
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No bookings found.");
+        }
+    }
+
+    static void userMenu(User user) {
+
+        while (true) {
+
+            System.out.println("\n===== SkillMart =====");
+            System.out.println("1. View Services");
+            System.out.println("2. Book Service");
+            System.out.println("3. My Bookings");
+            System.out.println("4. Logout");
+
+            System.out.print("Enter choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+
+                case 1:
+                    viewServices();
+                    break;
+
+                case 2:
+                    bookService(user);
+                    break;
+
+                case 3:
+                    viewBookings(user);
+                    break;
+
+                case 4:
+                    System.out.println("Logged out successfully.");
+                    return;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        addDefaultServices();
+
+        while (true) {
+
+            System.out.println("\n===== Welcome to SkillMart =====");
+            System.out.println("1. Register");
+            System.out.println("2. Login");
+            System.out.println("3. Exit");
+
+            System.out.print("Enter choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+
+                case 1:
+                    registerUser();
+                    break;
+
+                case 2:
+                    User user = loginUser();
+
+                    if (user != null) {
+                        userMenu(user);
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Thank you for using SkillMart!");
+                    return;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+}
