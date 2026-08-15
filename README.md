@@ -2289,4 +2289,3 @@ updateCart();
   
 </script>  </body>  
 </html>  
-Give it single file so that i can open 
